@@ -18,6 +18,7 @@ export const QUERY_REGISTRATION = gql`
     }
     instructions
     lastModifiedAt
+    mandatoryFields
     maximumAttendeeCapacity
     minimumAttendeeCapacity
     publisher

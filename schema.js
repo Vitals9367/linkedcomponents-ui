@@ -151,6 +151,7 @@ module.exports = buildSchema(/* GraphQL */ `
       pageSize: Int
       text: String
     ): RegistrationsResponse!
+
     user(id: ID!): User!
     users(page: Int, pageSize: Int): UsersResponse!
   }
@@ -465,6 +466,7 @@ module.exports = buildSchema(/* GraphQL */ `
     enrolmentStartTime: String
     event: IdObjectInput!
     instructions: String
+    mandatoryFields: [String]
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
     waitingListCapacity: Int
@@ -479,6 +481,7 @@ module.exports = buildSchema(/* GraphQL */ `
     enrolmentStartTime: String
     event: IdObjectInput!
     instructions: String
+    mandatoryFields: [String]
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
     waitingListCapacity: Int
@@ -853,6 +856,7 @@ module.exports = buildSchema(/* GraphQL */ `
     instructions: String
     lastModifiedAt: String
     lastModifiedBy: String
+    mandatoryFields: [String]
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
     publisher: String
