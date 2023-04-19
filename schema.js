@@ -146,6 +146,7 @@ module.exports = buildSchema(/* GraphQL */ `
     registrations(
       adminUser: Boolean
       eventType: [EventTypeId]
+      include: [String]
       page: Int
       pageSize: Int
       text: String
@@ -462,7 +463,7 @@ module.exports = buildSchema(/* GraphQL */ `
     confirmationMessage: String
     enrolmentEndTime: String
     enrolmentStartTime: String
-    event: ID!
+    event: IdObjectInput!
     instructions: String
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
@@ -476,7 +477,7 @@ module.exports = buildSchema(/* GraphQL */ `
     confirmationMessage: String
     enrolmentEndTime: String
     enrolmentStartTime: String
-    event: ID!
+    event: IdObjectInput!
     instructions: String
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
@@ -848,12 +849,13 @@ module.exports = buildSchema(/* GraphQL */ `
     currentWaitingListCount: Int
     enrolmentEndTime: String
     enrolmentStartTime: String
-    event: ID
+    event: Event
     instructions: String
     lastModifiedAt: String
     lastModifiedBy: String
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
+    publisher: String
     signups: [Enrolment]
     waitingListCapacity: Int
     # @id is renamed as atId so it's usable on GraphQl

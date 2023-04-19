@@ -497,6 +497,7 @@ export const fakeRegistration = (
       lastModifiedBy: faker.name.firstName(),
       maximumAttendeeCapacity: 0,
       minimumAttendeeCapacity: 0,
+      publisher: TEST_PUBLISHER_ID,
       signups: [],
       waitingListCapacity: 0,
       __typename: 'Registration',

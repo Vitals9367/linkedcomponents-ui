@@ -22,6 +22,7 @@ import getDateFromString from '../../utils/getDateFromString';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import { getFreeWaitlistCapacity } from '../enrolment/utils';
+import { getEventFields } from '../event/utils';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -169,7 +170,7 @@ export const getRegistrationFields = (
   language: Language
 ): RegistrationFields => {
   const id = getValue(registration.id, '');
-  const event = getValue(registration.event, '');
+  const event = registration.event;
 
   return {
     id,
@@ -179,10 +180,10 @@ export const getRegistrationFields = (
     currentWaitingListCount: registration.currentWaitingListCount ?? 0,
     enrolmentEndTime: getDateFromString(registration.enrolmentEndTime),
     enrolmentStartTime: getDateFromString(registration.enrolmentStartTime),
-    event,
-    eventUrl: `/${language}${ROUTES.EDIT_EVENT.replace(':id', event)}`,
+    event: event?.id ? getEventFields(event, language) : null,
     lastModifiedAt: getDateFromString(registration.lastModifiedAt),
     maximumAttendeeCapacity: registration.maximumAttendeeCapacity ?? 0,
+    publisher: getValue(registration.publisher, null),
     registrationUrl: `/${language}${ROUTES.EDIT_REGISTRATION.replace(
       ':id',
       id
@@ -223,7 +224,7 @@ export const getRegistrationInitialValues = (
             TIME_FORMAT_DATA
           )
         : '',
-    [REGISTRATION_FIELDS.EVENT]: getValue(registration.event, ''),
+    [REGISTRATION_FIELDS.EVENT]: getValue(registration.event?.atId, ''),
     [REGISTRATION_FIELDS.INSTRUCTIONS]: getValue(registration.instructions, ''),
     [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: getValue(
       registration.maximumAttendeeCapacity,
@@ -295,7 +296,7 @@ export const getRegistrationPayload = (
             enrolmentStartTimeTime
           )
         : null,
-    event,
+    event: { atId: event },
     instructions: instructions ? instructions : null,
     maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)
       ? maximumAttendeeCapacity

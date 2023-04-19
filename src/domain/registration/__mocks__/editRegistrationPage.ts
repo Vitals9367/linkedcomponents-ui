@@ -2,12 +2,11 @@ import { MockedResponse } from '@apollo/client/testing';
 
 import {
   DeleteRegistrationDocument,
-  EventDocument,
   RegistrationDocument,
   UpdateRegistrationDocument,
 } from '../../../generated/graphql';
-import { fakeEvent, fakeRegistration } from '../../../utils/mockDataUtils';
-import { EVENT_INCLUDES, TEST_EVENT_ID } from '../../event/constants';
+import { fakeRegistration } from '../../../utils/mockDataUtils';
+import { event } from '../../event/__mocks__/event';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { REGISTRATION_INCLUDES, TEST_REGISTRATION_ID } from '../constants';
 
@@ -21,7 +20,7 @@ const registrationOverrides = {
   confirmationMessage: 'Confirmation message',
   enrolmentEndTime: '2020-09-30T16:00:00.000Z',
   enrolmentStartTime: '2020-09-27T15:00:00.000Z',
-  event: TEST_EVENT_ID,
+  event,
   instructions: 'Instructions',
   maximumAttendeeCapacity: 100,
   minimumAttendeeCapacity: 10,
@@ -38,18 +37,6 @@ const registrationResponse = { data: { registration } };
 const mockedRegistrationResponse: MockedResponse = {
   request: { query: RegistrationDocument, variables: registrationVariables },
   result: registrationResponse,
-};
-
-const event = fakeEvent({ id: TEST_EVENT_ID, publisher });
-const eventVariables = {
-  createPath: undefined,
-  id: TEST_EVENT_ID,
-  include: EVENT_INCLUDES,
-};
-const eventResponse = { data: { event: event } };
-const mockedEventResponse = {
-  request: { query: EventDocument, variables: eventVariables },
-  result: eventResponse,
 };
 
 const mockedNotFoundRegistrationResponse: MockedResponse = {
@@ -71,7 +58,9 @@ const mockedDeleteRegistrationResponse: MockedResponse = {
 };
 
 const updatedLastModifiedTime = '2021-08-23T12:00:00.000Z';
-const updateRegistrationVariables = { input: registrationOverrides };
+const updateRegistrationVariables = {
+  input: { ...registrationOverrides, event: { atId: event.atId } },
+};
 const updatedRegistration = {
   ...registration,
   lastModifiedAt: updatedLastModifiedTime,
@@ -110,7 +99,6 @@ const mockedInvalidUpdateRegistrationResponse: MockedResponse = {
 export {
   event,
   mockedDeleteRegistrationResponse,
-  mockedEventResponse,
   mockedInvalidUpdateRegistrationResponse,
   mockedNotFoundRegistrationResponse,
   mockedRegistrationResponse,

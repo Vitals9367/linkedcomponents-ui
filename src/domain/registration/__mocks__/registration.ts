@@ -2,10 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import addDays from 'date-fns/addDays';
 import subDays from 'date-fns/subDays';
 
-import {
-  RegistrationDocument,
-  RegistrationFieldsFragment,
-} from '../../../generated/graphql';
+import { Registration, RegistrationDocument } from '../../../generated/graphql';
 import {
   fakeRegistration,
   fakeRegistrations,
@@ -14,7 +11,7 @@ import {
   attendees,
   waitingAttendees,
 } from '../../enrolments/__mocks__/enrolmentsPage';
-import { TEST_EVENT_ID } from '../../event/constants';
+import { event } from '../../event/__mocks__/event';
 import { REGISTRATION_INCLUDES, TEST_REGISTRATION_ID } from '../constants';
 
 const registrationId = TEST_REGISTRATION_ID;
@@ -30,10 +27,11 @@ const registrationOverrides = {
   confirmationMessage: 'Confirmation message',
   enrolmentEndTime,
   enrolmentStartTime,
-  event: TEST_EVENT_ID,
+  event,
   instructions: 'Instructions',
   maximumAttendeeCapacity: 100,
   minimumAttendeeCapacity: 10,
+  publisher: event.publisher,
   signups: [...attendees, ...waitingAttendees],
   waitingListCapacity: 5,
 };
@@ -57,7 +55,7 @@ const singleRegistrationOverrides = {
   waitingListCapacity: 10,
 };
 
-const registrationsOverrides: Partial<RegistrationFieldsFragment>[] = [
+const registrationsOverrides: Partial<Registration>[] = [
   {
     id: '1',
     currentAttendeeCount: 0,
