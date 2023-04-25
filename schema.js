@@ -30,6 +30,10 @@ module.exports = buildSchema(/* GraphQL */ `
     deleteRegistration(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback
     postGuestFeedback(input: FeedbackInput!): Feedback
+    sendMessage(
+      input: SendMessageMutationInput!
+      registration: String
+    ): NoContent
     updateEnrolment(input: UpdateEnrolmentMutationInput!): Enrolment!
     updateEvent(input: UpdateEventMutationInput!): Event!
     updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
@@ -498,6 +502,12 @@ module.exports = buildSchema(/* GraphQL */ `
     registration: String
     seats: Int
     waitlist: Boolean
+  }
+
+  input SendMessageMutationInput {
+    body: String!
+    signups: [String]
+    subject: String!
   }
 
   type DataSource {

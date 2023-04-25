@@ -23,6 +23,11 @@ export enum ENROLMENT_FIELDS {
   SERVICE_LANGUAGE = 'serviceLanguage',
 }
 
+export enum SEND_MESSAGE_FIELDS {
+  BODY = 'body',
+  SUBJECT = 'subject',
+}
+
 export const ATTENDEE_INITIAL_VALUES: AttendeeFields = {
   [ATTENDEE_FIELDS.CITY]: '',
   [ATTENDEE_FIELDS.DATE_OF_BIRTH]: null,
@@ -100,4 +105,5 @@ export enum ENROLMENT_MODALS {
   DELETE = 'delete',
   PERSONS_ADDED_TO_WAITLIST = 'personsAddedToWaitList',
   RESERVATION_TIME_EXPIRED = 'reservationTimeExpired',
+  SEND_MESSAGE = 'sendMessage',
 }

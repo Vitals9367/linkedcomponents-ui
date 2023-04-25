@@ -39,4 +39,19 @@ export const MUTATION_ENROLMENT = gql`
       ...enrolmentFields
     }
   }
+
+  mutation SendMessage(
+    $input: SendMessageMutationInput!
+    $registration: String!
+  ) {
+    sendMessage(input: $input, registration: $registration)
+      @rest(
+        type: "NoContent"
+        path: "/registration/{args.registration}/send_message/"
+        method: "POST"
+        bodyKey: "input"
+      ) {
+      noContent
+    }
+  }
 `;

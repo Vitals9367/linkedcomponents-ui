@@ -40,12 +40,14 @@ import EventInfo from '../eventInfo/EventInfo';
 import FormContainer from '../formContainer/FormContainer';
 import useEnrolmentUpdateActions from '../hooks/useEnrolmentActions';
 import ConfirmCancelEnrolmentModal from '../modals/confirmCancelEnrolmentModal/ConfirmCancelEnrolmentModal';
+import SendMessageModal from '../modals/sendMessageModal/SendMessageModal';
 import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
 import RegistrationWarning from '../registrationWarning/RegistrationWarning';
 import ReservationTimer from '../reservationTimer/ReservationTimer';
 import {
   AttendeeFields,
   EnrolmentFormFields as EnrolmentFormFieldsType,
+  SendMessageFormFields,
 } from '../types';
 import {
   clearCreateEnrolmentFormData,
@@ -100,11 +102,16 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
     timerCallbacksDisabled.current = true;
   }, []);
 
-  const { cancelEnrolment, createEnrolment, saving, updateEnrolment } =
-    useEnrolmentUpdateActions({
-      enrolment,
-      registration,
-    });
+  const {
+    cancelEnrolment,
+    createEnrolment,
+    sendMessage,
+    saving,
+    updateEnrolment,
+  } = useEnrolmentUpdateActions({
+    enrolment,
+    registration,
+  });
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrorsContext();
@@ -155,6 +162,13 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
 
   const handleCancel = () => {
     cancelEnrolment({ onSuccess: goToEnrolmentsPage });
+  };
+
+  const handleSendMessage = (
+    input: SendMessageFormFields,
+    signups: string[]
+  ) => {
+    sendMessage(input, signups);
   };
 
   const clearErrors = () => setErrors({});
@@ -216,6 +230,16 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
           onClose={closeModal}
           onConfirm={handleCancel}
           registration={registration}
+        />
+      )}
+
+      {enrolment && (
+        <SendMessageModal
+          enrolment={enrolment}
+          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE}
+          isSaving={saving === ENROLMENT_ACTIONS.SEND_MESSAGE}
+          onClose={closeModal}
+          onSendMessage={handleSendMessage}
         />
       )}
 
@@ -283,6 +307,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
               enrolment={enrolment}
               onCancel={() => setOpenModal(ENROLMENT_MODALS.CANCEL)}
               onSave={handleSubmit}
+              onSendMessage={() => setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE)}
               registration={registration}
               saving={saving}
             />

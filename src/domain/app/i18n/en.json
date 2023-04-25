@@ -386,6 +386,13 @@
       "text": "Unfortunately, the Reservation time has expired.",
       "title": "Time’s Up."
     },
+    "sendMessageModal": {
+      "labelBody": "Message",
+      "placeholderBody": "Enter message",
+      "labelSubject": "Subject",
+      "placeholderSubject": "Enter subject",
+      "title": "Send message to the participant"
+    },
     "warnings": {
       "capacityInWaitingList": "Registration for this event is still possible, but there are only {{count}} seat left in the queue.",
       "capacityInWaitingList_other": "Registration for this event is still possible, but there are only {{count}} seats left in the queue.",
