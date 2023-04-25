@@ -388,6 +388,7 @@
       "title": "Tiden är ute."
     },
     "sendMessageModal": {
+      "buttonSendMessage": "Skicka meddelande",
       "labelBody": "Meddelande",
       "placeholderBody": "Ange meddelande",
       "labelSubject": "Ämne",

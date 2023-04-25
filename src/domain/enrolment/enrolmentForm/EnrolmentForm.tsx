@@ -47,7 +47,6 @@ import ReservationTimer from '../reservationTimer/ReservationTimer';
 import {
   AttendeeFields,
   EnrolmentFormFields as EnrolmentFormFieldsType,
-  SendMessageFormFields,
 } from '../types';
 import {
   clearCreateEnrolmentFormData,
@@ -164,13 +163,6 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
     cancelEnrolment({ onSuccess: goToEnrolmentsPage });
   };
 
-  const handleSendMessage = (
-    input: SendMessageFormFields,
-    signups: string[]
-  ) => {
-    sendMessage(input, signups);
-  };
-
   const clearErrors = () => setErrors({});
 
   const handleCreate = (values: EnrolmentFormFieldsType) => {
@@ -239,7 +231,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
           isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE}
           isSaving={saving === ENROLMENT_ACTIONS.SEND_MESSAGE}
           onClose={closeModal}
-          onSendMessage={handleSendMessage}
+          onSendMessage={sendMessage}
         />
       )}
 

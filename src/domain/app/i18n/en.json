@@ -387,6 +387,7 @@
       "title": "Time’s Up."
     },
     "sendMessageModal": {
+      "buttonSendMessage": "Send message",
       "labelBody": "Message",
       "placeholderBody": "Enter message",
       "labelSubject": "Subject",

@@ -3,7 +3,7 @@ import { Button, Dialog, IconInfoCircle, IconPen } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import TextAreaField from '../../../../common/components/formFields/textAreaField/TextAreaField';
+import TextEditorField from '../../../../common/components/formFields/textEditorField/TextEditorField';
 import TextInputField from '../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import LoadingButton from '../../../../common/components/loadingButton/LoadingButton';
@@ -50,7 +50,7 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
       <Dialog.Header
         id={titleId}
         iconLeft={<IconInfoCircle aria-hidden={true} />}
-        title={t('event.editEventTimeModal.enrolment.sendMessageModal.title')}
+        title={t('enrolment.sendMessageModal.title')}
       />
       <Formik
         initialValues={{
@@ -82,7 +82,7 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
                 </FormGroup>
                 <FormGroup>
                   <Field
-                    component={TextAreaField}
+                    component={TextEditorField}
                     label={t(`enrolment.sendMessageModal.labelBody`)}
                     name={`${SEND_MESSAGE_FORM_NAME}.${SEND_MESSAGE_FIELDS.BODY}`}
                     placeholder={t(

@@ -388,6 +388,7 @@
       "title": "Varausaika on täynnä."
     },
     "sendMessageModal": {
+      "buttonSendMessage": "Lähetä viesti",
       "labelBody": "Viesti",
       "placeholderBody": "Syötä viesti",
       "labelSubject": "Otsikko",

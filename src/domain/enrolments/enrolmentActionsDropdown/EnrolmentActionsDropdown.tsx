@@ -18,6 +18,7 @@ import { ENROLMENT_ACTIONS, ENROLMENT_MODALS } from '../../enrolment/constants';
 import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
 import ConfirmCancelEnrolmentModal from '../../enrolment/modals/confirmCancelEnrolmentModal/ConfirmCancelEnrolmentModal';
+import SendMessageModal from '../../enrolment/modals/sendMessageModal/SendMessageModal';
 import { getEditButtonProps } from '../../enrolment/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { getRegistrationFields } from '../../registration/utils';
@@ -53,7 +54,7 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
 
   const { closeModal, openModal, setOpenModal } = useEnrolmentPageContext();
 
-  const { cancelEnrolment, saving } = useEnrolmentActions({
+  const { cancelEnrolment, saving, sendMessage } = useEnrolmentActions({
     enrolment,
     registration,
   });
@@ -96,6 +97,10 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
       onClick: goToEditEnrolmentPage,
     }),
     getActionItemProps({
+      action: ENROLMENT_ACTIONS.SEND_MESSAGE,
+      onClick: () => setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE),
+    }),
+    getActionItemProps({
       action: ENROLMENT_ACTIONS.CANCEL,
       onClick: () => setOpenModal(ENROLMENT_MODALS.CANCEL),
     }),
@@ -111,6 +116,15 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
           onConfirm={cancelEnrolment}
           onClose={closeModal}
           registration={registration}
+        />
+      )}
+      {openModal === ENROLMENT_MODALS.SEND_MESSAGE && (
+        <SendMessageModal
+          enrolment={enrolment}
+          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE}
+          isSaving={saving === ENROLMENT_ACTIONS.SEND_MESSAGE}
+          onClose={closeModal}
+          onSendMessage={sendMessage}
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />
