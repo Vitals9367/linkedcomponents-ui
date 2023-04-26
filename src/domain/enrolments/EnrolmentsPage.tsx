@@ -9,6 +9,7 @@ import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../common/components/button/Button';
 import EditingInfo from '../../common/components/editingInfo/EditingInfo';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import { ROUTES } from '../../constants';
 import { RegistrationFieldsFragment } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
@@ -19,10 +20,13 @@ import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
-import { ENROLMENT_ACTIONS } from '../enrolment/constants';
+import { ENROLMENT_ACTIONS, ENROLMENT_MODALS } from '../enrolment/constants';
 import EnrolmentAuthenticationNotification from '../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import { EnrolmentPageProvider } from '../enrolment/enrolmentPageContext/EnrolmentPageContext';
+import { useEnrolmentPageContext } from '../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
+import useEnrolmentActions from '../enrolment/hooks/useEnrolmentActions';
 import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
+import SendMessageModal from '../enrolment/modals/sendMessageModal/SendMessageModal';
 import {
   clearCreateEnrolmentFormData,
   getEditButtonProps,
@@ -61,6 +65,11 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
     locale
   );
 
+  const { closeModal, openModal, setOpenModal } = useEnrolmentPageContext();
+  const { saving, sendMessage } = useEnrolmentActions({
+    registration,
+  });
+
   const handleCreate = () => {
     const registrationId = getValue(registration.id, '');
     clearCreateEnrolmentFormData(registrationId);
@@ -75,6 +84,20 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
     });
   };
 
+  const actionItems: MenuItemOptionProps[] = [
+    getEditButtonProps({
+      action: ENROLMENT_ACTIONS.SEND_MESSAGE,
+      authenticated,
+      onClick: () => {
+        setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE);
+      },
+      organizationAncestors,
+      publisher,
+      t,
+      user,
+    }),
+  ];
+
   const buttonProps = getEditButtonProps({
     action: ENROLMENT_ACTIONS.CREATE,
     authenticated,
@@ -85,74 +108,84 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
     user,
   });
   return (
-    <PageWrapper
-      backgroundColor="coatOfArms"
-      className={styles.enrolmentsPage}
-      noFooter
-      titleText={getValue(
-        t('enrolmentsPage.pageTitle', { name: event?.name }),
-        ''
+    <>
+      {openModal === ENROLMENT_MODALS.SEND_MESSAGE && (
+        <SendMessageModal
+          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE}
+          isSaving={saving === ENROLMENT_ACTIONS.SEND_MESSAGE}
+          onClose={closeModal}
+          onSendMessage={sendMessage}
+        />
       )}
-    >
-      <MainContent>
-        <Container
-          contentWrapperClassName={styles.pageContentContainer}
-          withOffset={true}
-        >
-          <EnrolmentAuthenticationNotification
-            action={ENROLMENT_ACTIONS.VIEW}
-            registration={registration}
-          />
-          <TitleRow
-            breadcrumb={
-              <Breadcrumb
-                items={[
-                  { label: t('common.home'), to: ROUTES.HOME },
-                  {
-                    label: t('registrationsPage.title'),
-                    to: ROUTES.REGISTRATIONS,
-                  },
-                  {
-                    label: t(`editRegistrationPage.title`),
-                    to: ROUTES.EDIT_REGISTRATION.replace(
-                      ':id',
-                      getValue(registration.id, '')
-                    ),
-                  },
-                  { active: true, label: t(`enrolmentsPage.title`) },
-                ]}
-              />
-            }
-            buttonWrapperClassName={styles.titleButtonWrapper}
-            button={
-              <Button
-                {...buttonProps}
-                className={styles.createButton}
-                fullWidth={true}
-                iconLeft={<IconPlus aria-hidden={true} />}
-                variant="primary"
-              >
-                {t('enrolmentsPage.searchPanel.buttonCreate')}
-              </Button>
-            }
-            editingInfo={
-              <EditingInfo
-                createdBy={createdBy}
-                lastModifiedAt={lastModifiedAt}
-              />
-            }
-            title={getValue(event?.name, '')}
-          />
+      <PageWrapper
+        backgroundColor="coatOfArms"
+        className={styles.enrolmentsPage}
+        noFooter
+        titleText={getValue(
+          t('enrolmentsPage.pageTitle', { name: event?.name }),
+          ''
+        )}
+      >
+        <MainContent>
+          <Container
+            contentWrapperClassName={styles.pageContentContainer}
+            withOffset={true}
+          >
+            <EnrolmentAuthenticationNotification
+              action={ENROLMENT_ACTIONS.VIEW}
+              registration={registration}
+            />
+            <TitleRow
+              actionItems={actionItems}
+              breadcrumb={
+                <Breadcrumb
+                  items={[
+                    { label: t('common.home'), to: ROUTES.HOME },
+                    {
+                      label: t('registrationsPage.title'),
+                      to: ROUTES.REGISTRATIONS,
+                    },
+                    {
+                      label: t(`editRegistrationPage.title`),
+                      to: ROUTES.EDIT_REGISTRATION.replace(
+                        ':id',
+                        getValue(registration.id, '')
+                      ),
+                    },
+                    { active: true, label: t(`enrolmentsPage.title`) },
+                  ]}
+                />
+              }
+              buttonWrapperClassName={styles.titleButtonWrapper}
+              button={
+                <Button
+                  {...buttonProps}
+                  fullWidth={true}
+                  iconLeft={<IconPlus aria-hidden={true} />}
+                  variant="primary"
+                >
+                  {t('enrolmentsPage.searchPanel.buttonCreate')}
+                </Button>
+              }
+              editingInfo={
+                <EditingInfo
+                  createdBy={createdBy}
+                  lastModifiedAt={lastModifiedAt}
+                />
+              }
+              title={getValue(event?.name, '')}
+            />
 
-          <SearchPanel />
-          <FilterSummary />
+            <SearchPanel />
+            <FilterSummary />
 
-          <AttendeeList registration={registration} />
-          <WaitingList registration={registration} />
-        </Container>
-        <ButtonPanel registration={registration} />
-      </MainContent>
-    </PageWrapper>
+            <AttendeeList registration={registration} />
+            <WaitingList registration={registration} />
+          </Container>
+          <ButtonPanel registration={registration} />
+        </MainContent>
+      </PageWrapper>
+    </>
   );
 };
 

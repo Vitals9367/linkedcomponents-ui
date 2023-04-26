@@ -393,7 +393,8 @@
       "placeholderBody": "Syötä viesti",
       "labelSubject": "Otsikko",
       "placeholderSubject": "Syötä otsikko",
-      "title": "Lähetä viesti osallistujalle"
+      "title": "Lähetä viesti osallistujille",
+      "titleSingle": "Lähetä viesti osallistujalle"
     },
     "warnings": {
       "capacityInWaitingList": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",

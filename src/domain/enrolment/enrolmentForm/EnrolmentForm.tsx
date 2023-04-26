@@ -228,7 +228,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
       {enrolment && (
         <SendMessageModal
           enrolment={enrolment}
-          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE}
+          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT}
           isSaving={saving === ENROLMENT_ACTIONS.SEND_MESSAGE}
           onClose={closeModal}
           onSendMessage={sendMessage}
@@ -299,7 +299,9 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
               enrolment={enrolment}
               onCancel={() => setOpenModal(ENROLMENT_MODALS.CANCEL)}
               onSave={handleSubmit}
-              onSendMessage={() => setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE)}
+              onSendMessage={() =>
+                setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT)
+              }
               registration={registration}
               saving={saving}
             />

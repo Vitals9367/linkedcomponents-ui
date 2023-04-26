@@ -52,7 +52,8 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
     registration,
   });
 
-  const { closeModal, openModal, setOpenModal } = useEnrolmentPageContext();
+  const { closeModal, openModal, openModalId, setOpenModal, setOpenModalId } =
+    useEnrolmentPageContext();
 
   const { cancelEnrolment, saving, sendMessage } = useEnrolmentActions({
     enrolment,
@@ -98,17 +99,26 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
     }),
     getActionItemProps({
       action: ENROLMENT_ACTIONS.SEND_MESSAGE,
-      onClick: () => setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE),
+      onClick: () => {
+        setOpenModalId(enrolment.id);
+        setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT);
+      },
     }),
     getActionItemProps({
       action: ENROLMENT_ACTIONS.CANCEL,
-      onClick: () => setOpenModal(ENROLMENT_MODALS.CANCEL),
+      onClick: () => {
+        setOpenModalId(enrolment.id);
+        setOpenModal(ENROLMENT_MODALS.CANCEL);
+      },
     }),
   ].filter(skipFalsyType);
 
+  const isModalOpen = (modal: ENROLMENT_MODALS) =>
+    openModalId === enrolment.id && openModal === modal;
+
   return (
     <>
-      {openModal === ENROLMENT_MODALS.CANCEL && (
+      {isModalOpen(ENROLMENT_MODALS.CANCEL) && (
         <ConfirmCancelEnrolmentModal
           enrolment={enrolment}
           isOpen={openModal === ENROLMENT_MODALS.CANCEL}
@@ -118,10 +128,10 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
           registration={registration}
         />
       )}
-      {openModal === ENROLMENT_MODALS.SEND_MESSAGE && (
+      {isModalOpen(ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT) && (
         <SendMessageModal
           enrolment={enrolment}
-          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE}
+          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT}
           isSaving={saving === ENROLMENT_ACTIONS.SEND_MESSAGE}
           onClose={closeModal}
           onSendMessage={sendMessage}

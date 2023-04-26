@@ -47,7 +47,7 @@ type UseEnrolmentActionsState = {
   saving: ENROLMENT_ACTIONS | false;
   sendMessage: (
     values: SendMessageFormFields,
-    signups: string[],
+    signups?: string[],
     callbacks?: MutationCallbacks
   ) => Promise<void>;
   updateEnrolment: (
@@ -206,7 +206,7 @@ const useEnrolmentActions = ({
 
   const sendMessage = async (
     values: SendMessageFormFields,
-    signups: string[],
+    signups?: string[],
     callbacks?: MutationCallbacks
   ) => {
     const payload: SendMessageMutationInput = {
@@ -216,7 +216,7 @@ const useEnrolmentActions = ({
     };
 
     try {
-      setSaving(ENROLMENT_ACTIONS.UPDATE);
+      setSaving(ENROLMENT_ACTIONS.SEND_MESSAGE);
 
       await sendMessageMutation({
         variables: {

@@ -392,7 +392,8 @@
       "placeholderBody": "Enter message",
       "labelSubject": "Subject",
       "placeholderSubject": "Enter subject",
-      "title": "Send message to the participant"
+      "title": "Send message to participants",
+      "titleSingle": "Send message to the participant"
     },
     "warnings": {
       "capacityInWaitingList": "Registration for this event is still possible, but there are only {{count}} seat left in the queue.",

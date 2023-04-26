@@ -393,7 +393,8 @@
       "placeholderBody": "Ange meddelande",
       "labelSubject": "Ämne",
       "placeholderSubject": "Ange ämne",
-      "title": "Skicka ett meddelande till deltagaren"
+      "title": "Skicka ett meddelande till deltagarna",
+      "titleSingle": "Skicka ett meddelande till deltagaren"
     },
     "warnings": {
       "capacityInWaitingList": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} plats kvar i kön.",

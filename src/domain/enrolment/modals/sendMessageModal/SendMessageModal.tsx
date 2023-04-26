@@ -14,12 +14,12 @@ import { SendMessageFormFields } from '../../types';
 import { sendMessageSchema } from '../../validation';
 
 export interface SendMessageModalProps {
-  enrolment: EnrolmentFieldsFragment;
+  enrolment?: EnrolmentFieldsFragment;
   focusAfterCloseElement?: HTMLElement;
   isOpen: boolean;
   isSaving: boolean;
   onClose: () => void;
-  onSendMessage: (input: SendMessageFormFields, signups: string[]) => void;
+  onSendMessage: (input: SendMessageFormFields, signups?: string[]) => void;
 }
 
 const SendMessageModal: React.FC<SendMessageModalProps> = ({
@@ -32,8 +32,8 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const submitEditEventTime = (values: SendMessageFormFields) => {
-    onSendMessage(values, [enrolment.id]);
+  const submitSendMessage = (values: SendMessageFormFields) => {
+    onSendMessage(values, enrolment ? [enrolment.id] : undefined);
   };
 
   const id = 'send-message-modal';
@@ -50,7 +50,11 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
       <Dialog.Header
         id={titleId}
         iconLeft={<IconInfoCircle aria-hidden={true} />}
-        title={t('enrolment.sendMessageModal.title')}
+        title={
+          enrolment
+            ? t('enrolment.sendMessageModal.titleSingle')
+            : t('enrolment.sendMessageModal.title')
+        }
       />
       <Formik
         initialValues={{
@@ -59,7 +63,7 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
             subject: '',
           },
         }}
-        onSubmit={submitEditEventTime}
+        onSubmit={submitSendMessage}
         validateOnBlur={false}
         validateOnChange
         validateOnMount
