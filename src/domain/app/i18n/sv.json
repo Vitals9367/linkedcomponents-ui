@@ -721,6 +721,7 @@
       "labelKeywords": "Nyckelordssökning",
       "labelLocation": "Plats",
       "labelLocationExtraInfo": "{{langText}}",
+      "labelLocationOutdoorsIndoors": "Event is held",
       "labelLocationId": "Plats ID:",
       "labelMaximumAttendeeCapacity": "Högsta antal deltagare",
       "labelMinimumAttendeeCapacity": "Minsta antal deltagare",
@@ -984,7 +985,11 @@
         "general": "Video för evenemanget",
         "volunteering": "Video för volontärarbetet"
       },
-      "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett huvudevenemang."
+      "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett huvudevenemang.",
+      "locationOutdoorsIndoorsOptions": {
+        "indoors": "Indoors",
+        "outdoors": "Outdoors"
+      }
     },
     "freeEvent": "Fri",
     "postponeEventModal": {
