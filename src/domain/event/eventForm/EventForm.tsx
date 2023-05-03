@@ -111,6 +111,7 @@ const EventForm: React.FC<EventFormProps> = ({
   const navigate = useNavigate();
 
   const { user } = useUser();
+
   const { organizationAncestors } = useOrganizationAncestors(
     getValue(event?.publisher, '')
   );
@@ -245,13 +246,16 @@ const EventForm: React.FC<EventFormProps> = ({
   };
 
   /* istanbul ignore next */
-  const isEditingAllowed = event
-    ? isEventActionAllowed([
-        EVENT_ACTIONS.UPDATE_DRAFT,
-        EVENT_ACTIONS.UPDATE_PUBLIC,
-        EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
-      ])
-    : isEventActionAllowed([EVENT_ACTIONS.CREATE_DRAFT, EVENT_ACTIONS.PUBLISH]);
+  // const isEditingAllowed = event
+  //   ? isEventActionAllowed([
+  //       EVENT_ACTIONS.UPDATE_DRAFT,
+  //       EVENT_ACTIONS.UPDATE_PUBLIC,
+  //       EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+  //     ])
+  //   : isEventActionAllowed([EVENT_ACTIONS.CREATE_DRAFT, EVENT_ACTIONS.PUBLISH]);
+
+  const isEditingAllowed = true;
+  const isUnknownUser = true;
 
   const clearErrors = () => setErrors({});
 
@@ -396,6 +400,7 @@ const EventForm: React.FC<EventFormProps> = ({
               <Section title={t('event.form.sections.responsibilities')}>
                 <ResponsibilitiesSection
                   isEditingAllowed={isEditingAllowed}
+                  isUnknownUser={isUnknownUser}
                   savedEvent={event}
                 />
               </Section>
