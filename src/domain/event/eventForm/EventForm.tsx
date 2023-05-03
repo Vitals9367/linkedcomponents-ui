@@ -407,6 +407,7 @@ const EventForm: React.FC<EventFormProps> = ({
               <Section title={t('event.form.sections.description')}>
                 <DescriptionSection
                   isEditingAllowed={isEditingAllowed}
+                  isUnknownUser={isUnknownUser}
                   selectedLanguage={descriptionLanguage}
                   setSelectedLanguage={setDescriptionLanguage}
                 />
